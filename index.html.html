@@ -1,0 +1,491 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cartes mentales – La reproduction des mammifères</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px system-ui,sans-serif;background:#fffaf0;color:#222;overscroll-behavior:none}
+header{display:flex;gap:6px;align-items:center;padding:8px;background:#1d3557;color:#fff;flex-wrap:wrap}
+button{font:inherit;border:0;border-radius:10px;padding:8px 12px;background:#ffd166;color:#222;cursor:pointer}
+.sp{flex:1}#ttl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:50vw}
+#home{padding:14px;max-width:1000px;margin:auto}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{border-radius:18px;padding:12px;color:#fff;text-align:center;cursor:pointer;transition:.2s}.card:hover{transform:scale(1.04)}
+.card svg{background:#fff;border-radius:50%;padding:8px;width:70px;height:70px}.card h3{margin:8px 0 0;font-size:15px}
+#map{position:fixed;inset:0;display:flex;flex-direction:column}
+#tb{background:#fff3cd;padding:6px 8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}#tb[hidden]{display:none}
+#s{flex:1;min-height:0;width:100%;touch-action:none;background:radial-gradient(#fff,#fdf0d5)}text{font-family:system-ui,sans-serif;pointer-events:none}
+#sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px;box-shadow:0 -4px 20px #0005;max-height:60vh;overflow:auto;z-index:5}#sheet[hidden]{display:none}
+#sheet button{display:block;width:100%;margin:6px 0;text-align:left;background:#e9ecef}#sheet button:disabled{opacity:.4}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-t" viewBox="0 0 40 40"><ellipse cx="16" cy="25" rx="9" ry="12" fill="#f4a261" stroke="#7a3e00" stroke-width="2"/><ellipse cx="27" cy="27" rx="8" ry="10" fill="#f6c177" stroke="#7a3e00" stroke-width="2"/><path d="M20 3c0 8-4 8-4 14" stroke="#7a3e00" stroke-width="3" fill="none"/></symbol>
+<symbol id="i-o" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#ffd6e0" stroke="#d62d85" stroke-width="2" stroke-dasharray="3 2"/><circle cx="20" cy="20" r="10" fill="#fff0f3" stroke="#d62d85" stroke-width="2"/><circle cx="20" cy="20" r="4" fill="#d62d85"/></symbol>
+<symbol id="i-s" viewBox="0 0 40 40"><ellipse cx="12" cy="13" rx="7" ry="5" fill="#5a4fcf" transform="rotate(-35 12 13)"/><path d="M16 17c5 5 0 9 6 12s5 5 12 6" stroke="#5a4fcf" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="i-h" viewBox="0 0 40 40"><path d="M15 4h10M17 4v12L7 34a3 3 0 0 0 3 4h20a3 3 0 0 0 3-4L23 16V4" fill="#bfe9ff" stroke="#0077b6" stroke-width="2.5"/><circle cx="19" cy="30" r="3" fill="#0077b6"/><circle cx="26" cy="26" r="2" fill="#e63946"/></symbol>
+<symbol id="i-c" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="#fff3cd" stroke="#f77f00" stroke-width="3"/><path d="M20 10v10l7 4" stroke="#f77f00" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M30 5l3 8-8-1z" fill="#e63946"/></symbol>
+<symbol id="i-b" viewBox="0 0 40 40"><circle cx="20" cy="14" r="9" fill="#ffd9b3" stroke="#8d5524" stroke-width="2"/><circle cx="17" cy="13" r="1.3" fill="#333"/><circle cx="23" cy="13" r="1.3" fill="#333"/><path d="M16 18q4 3 8 0" stroke="#c0392b" fill="none" stroke-width="1.5"/><path d="M8 38c0-9 5-13 12-13s12 4 12 13z" fill="#8ecae6" stroke="#219ebc" stroke-width="2"/></symbol>
+<symbol id="i-m" viewBox="0 0 40 40"><rect x="14" y="3" width="12" height="6" rx="2" fill="#ffb703"/><path d="M13 9h14l2 6v20a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3V15z" fill="#fff" stroke="#219ebc" stroke-width="2.5"/><path d="M12 22h16v13a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2z" fill="#bde0fe"/></symbol>
+<symbol id="i-p" viewBox="0 0 40 40"><g transform="rotate(-40 20 20)"><rect x="4" y="12" width="32" height="16" rx="8" fill="#fff" stroke="#8338ec" stroke-width="2.5"/><path d="M20 12h8a8 8 0 0 1 0 16h-8z" fill="#8338ec"/></g></symbol>
+<symbol id="i-l" viewBox="0 0 40 40"><circle cx="17" cy="17" r="11" fill="#e0f7ff" stroke="#264653" stroke-width="3"/><path d="M26 26l11 11" stroke="#264653" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="i-n" viewBox="0 0 40 40"><path d="M20 6c-5-4-14 0-12 7-5 3-2 11 3 11-1 7 8 10 9 10z" fill="#ffb3c6" stroke="#c9184a" stroke-width="2"/><path d="M20 6c5-4 14 0 12 7 5 3 2 11-3 11 1 7-8 10-9 10z" fill="#ffc8dd" stroke="#c9184a" stroke-width="2"/></symbol>
+<symbol id="i-d" viewBox="0 0 40 40"><ellipse cx="20" cy="18" rx="16" ry="11" fill="#e76f51" stroke="#9b2226" stroke-width="2"/><path d="M20 28c0 6 8 4 8 10" stroke="#f1c0a8" stroke-width="4" fill="none"/></symbol>
+</defs></svg>
+<div id="app"></div>
+<script>
+const $=q=>document.querySelector(q),C=['#e63946','#f77f00','#2a9d8f','#3a86ff','#8338ec','#d62d85','#6a994e','#00a6c0','#b5651d'],H=40;
+const P=s=>{const r=[],st=[];s.split('\n').forEach(l=>{if(!l.trim())return;const d=l.search(/\S/),[t,i]=l.trim().split('|'),n={t,i,k:[],d:d+1};while(st.length&&st[st.length-1].d>=n.d)st.pop();(st.length?st[st.length-1].k:r).push(n);st.push(n)});return r};
+const MAPS=[
+['Vue d’ensemble','b',`Mâle|t
+ Testicule: glande mixte
+ Spermatogenèse (74 j)
+ Testostérone (Leydig)
+Femelle|o
+ Ovaire: glande mixte
+ Ovogenèse (dès la vie fœtale)
+ Œstrogènes + progestérone
+Cycle sexuel (28 j)|c
+ Phase folliculaire
+ Ovulation (J14)
+ Phase lutéale
+ Règles
+Régulation|n
+ GnRH (hypothalamus)
+ FSH + LH (hypophyse)
+ Rétrocontrôle + / –
+Fécondation|s
+ Ampoule de la trompe
+ Caryogamie → zygote
+Gestation|b
+ Nidation (J7)
+ Placenta + HCG
+Parturition|d
+ Cortisol fœtal
+ Ocytocine
+Allaitement|m
+ Prolactine
+ Ocytocine (éjection)
+Maîtrise|p
+ Contraception
+ Contragestion
+ PMA
+ Diagnostic prénatal`],
+['Appareil génital mâle','t',`Gonades|t
+ Testicules
+  Glandes ovoïdes 4–5 cm
+  Dans les bourses (scrotum)
+Voies génitales|s
+ Épididyme
+  Canal de 6 m pelotonné
+  Coiffe le testicule
+ Canaux déférents
+  40 cm, canal inguinal
+  Ampoule derrière la vessie
+  Traversent la prostate
+ Urètre
+  Sperme + urine
+  2 anneaux musculaires
+Glandes annexes|h
+ Vésicules séminales
+ Prostate
+ Glandes de Cowper
+ Liquide séminal
+  Modifie le pH
+  Fructose (motilité)
+  Ions Cl⁻
+  Dilue le sperme
+Organe copulateur|l
+ Pénis (verge)
+  2 corps caverneux
+  1 corps spongieux (urètre)
+  Gland + prépuce`],
+['Testicule et spermatogenèse','s',`Testicule: glande mixte|t
+ Exocrine: spermatogenèse
+ Endocrine: hormones
+ Hors du corps: T° plus basse
+Tubes séminifères|l
+ 0,2 mm de diamètre
+ 400–1000 mm de long
+ Creux: paroi + lumière
+ Formation centripète
+4 phases (74 jours)|c
+ Multiplication
+  Spermatogonies (2n), mitoses
+  27 jours
+ Accroissement
+  Spermatocyte I (2n)
+  23 jours
+ Méiose
+  Spermatocytes II → 4 spermatides (n)
+  1 jour
+ Spermiogenèse
+  Spermatide → spermatozoïde
+  23 jours
+Cellules clés|n
+ Sertoli
+  Nourrit, coordonne
+  Libère les spermatozoïdes
+  Sécrète AMH + inhibine
+ Leydig
+  Cellules interstitielles
+  Sécrètent la testostérone
+Spermatozoïde|s
+ Tête + pièce intermédiaire + flagelle
+ Acrosome: enzymes
+ Mitochondries: énergie
+ Flagelle: mobilité
+ n = 23 chromosomes
+Épididyme et sperme|b
+ Maturation: mobiles et féconds
+ Queue: stockage
+ Sperme = spermatozoïdes + liquide
+ Éjaculation: contractions du périnée
+Toute la vie|o
+ Débute à la puberté
+ Jamais d’arrêt complet
+ 3 mitoses → 32 spermatozoïdes`],
+['Hormones mâles et régulation','h',`Testostérone|h
+ Origine: cellules de Leydig
+ Rôles
+  Différencie les voies mâles
+  Caractères sexuels I et II
+  Achève la spermatogenèse
+  Rétrocontrôle négatif
+Sertoli|l
+ AMH: inhibe les voies femelles
+ Inhibine: coordonne la spermatogenèse
+ Inhibine: freine la FSH
+Hypothalamus|n
+ GnRH (neurohormone)
+ 1 pulse toutes les 90 min
+ Stimule l’hypophyse
+Hypophyse antérieure|d
+ LH (ICSH)
+  Stimule Leydig → testostérone
+ FSH
+  Stimule Sertoli → ABP
+  ABP: permet l’action de la testostérone
+Rétrocontrôle négatif|c
+ Testostérone ↑ → freine l’axe
+ Gonadostimulines ↓
+ Testostérone ↓ → levée du frein
+Expériences (rat)|p
+ Castration: stérilité, FSH/LH ↑
+ Greffe de testicule: corrige
+ Ablation hypophyse: testicules atrophiés
+ Extraits hypothalamiques: corrigent tout`],
+['Appareil femelle et ovaire','o',`Appareil génital|o
+ Ovaires (gonades)
+ Trompes + pavillons
+ Utérus: gestation
+ Vagin → vulve
+ Fécondation: dans les trompes
+Glandes annexes|m
+ Bartholin: lubrifient
+ Cervicales: glaire
+ Utérines: glycogène
+ Mammaires: lait
+Structure de l’ovaire|l
+ Glande paire, petit bassin
+ Cortex: follicules
+ Médulla: vaisseaux
+Follicules|c
+ Primordial
+  Ovocyte I + cellules aplaties
+ Primaire
+  Couche de cellules cubiques
+ Secondaire
+  Granulosa + zone pellucide
+  Thèques
+ Tertiaire (cavitaire)
+  Antrum + liquide folliculaire
+  Cumulus oophorus
+ Mûr (De Graaf)
+  Fait saillie à la surface
+  Corona radiata
+Corps jaune|d
+ Se forme après l’ovulation
+ Cellules lutéales
+ Sans ovocyte
+Ovogenèse|s
+ Multiplication: vie fœtale
+ Ovocyte I bloqué en prophase I
+ Ovocyte II bloqué en métaphase II
+ 1er globule polaire
+ Méiose finie après fécondation
+Réserve d’ovocytes|b
+ 7 millions (6e mois fœtal)
+ 2 millions à la naissance
+ 250 000 par ovaire à la puberté
+ Atrésie: destin normal
+ 400–450 ovulations`],
+['Cycle sexuel de la femme','c',`Cycle ovarien (28 j)|c
+ Phase folliculaire (J1–J14)
+  Follicule dominant mûr
+  Les autres: atrésie
+ Ovulation (J14)
+  Ovocyte II en métaphase II
+  Rupture du follicule mûr
+ Phase lutéale
+  Corps jaune
+  Sans fécondation: corps blanc
+  Fécondation: corps gestatif
+Hormones ovariennes|h
+ Œstrogènes
+  Pic avant l’ovulation
+  Caractères féminins
+ Progestérone
+  Pic au milieu de la phase lutéale
+  Hormone de la mère
+  Hyperthermie
+Cycle utérin|b
+ J1–J5: règles
+ J5–J14: prolifération
+ J15–J28: sécrétion (dentelle)
+ Silence utérin
+ Épaisseur max. 8 mm
+Glaire cervicale|m
+ Ovulation: filante, alcaline
+ Mailles larges: passage
+ Ailleurs: épaisse, barrière
+ Sélectionne les spermatozoïdes
+Température|l
+ Avant ovulation: &lt; 37 °C
+ Après: &gt; 37 °C
+ Progestérone hyperthermisante
+Hypophyse|n
+ FSH: pic vers J13
+ LH: pic vers J13 → ovulation
+Ovulation|o
+ Spontanée: femme, vache
+ Provoquée: chatte, lapine`],
+['Régulation de l’activité femelle','n',`Hypothalamus|n
+ GnRH pulsatile
+ Fréquence ↑ à l’ovulation
+Hypophyse|d
+ FSH: croissance des follicules
+ LH: ovulation + corps jaune
+Ovaire|o
+ Follicule: œstrogènes
+ Corps jaune: progestérone
+Rétrocontrôle|c
+ RC– début de cycle (œstradiol faible)
+ RC+ avant l’ovulation (pic de LH)
+ RC– phase lutéale
+ Fin: corps jaune régresse → FSH ↑
+Expériences (ratte)|p
+ Ablation utérus: aucun effet
+ Ablation ovaires: utérus atrophié
+ Ovariectomie: FSH, LH ↑
+ Hypophysectomie: ovaires atrophiés
+Messages|l
+ Stimuli visuels, olfactifs, tactiles
+ Émotions: règles perturbées`],
+['Fécondation','s',`Conditions|l
+ Sperme normal
+  pH 7–8,7
+  40–100 millions/cm³
+  80–90 % mobiles
+ Spermatozoïdes capacités
+ Trompes perméables
+ Ovulation normale
+ Glaire filante
+Moment fécond|c
+ 3–4 j avant l’ovulation
+ 24 h après
+ 5 jours sur 28
+Trajet|b
+ 200–300 millions déposés
+ Glaire: 1–2 % passent
+ Capacitation (trompes)
+ Quelques centaines à l’ampoule
+Étapes|s
+ Corona radiata (hyaluronidase)
+ Reconnaissance: récepteur ZP3
+ Réaction acrosomique (Ca²⁺)
+ Fusion: noyau injecté
+ Réaction corticale
+ 2e globule polaire
+ Pronucléi ♂ et ♀
+ Caryogamie → zygote (2n)
+Monospermie|p
+ Blocage précoce
+  Dépolarisation (entrée de Na⁺)
+ Blocage tardif
+  Granules corticaux: enzymes
+  ZP3 modifiée
+ Polyspermie: œuf non viable
+Après|o
+ 1re mitose: 2 blastomères`],
+['Gestation','b',`Gestation|b
+ Nidation → naissance
+ 266 jours (9 mois)
+Segmentation|o
+ Zygote: mitoses
+ Morula (J4)
+ Blastocyste
+  Trophoblaste
+  Bouton embryonnaire
+  Blastocœle
+ Totipotentes jusqu’à J3
+ Vrais jumeaux
+Nidation|c
+ J7 après la fécondation
+ Endomètre prêt vers J21
+ Trophoblaste: anti-rejet
+Placenta|d
+ Galette de 500 g
+ Villosités choriales
+ Cordon: 2 artères + 1 veine
+ Échanges 10–14 m²
+ Passent: nutriments, O₂, alcool, nicotine
+ Barrage: grosses molécules, microbes
+ Anticorps passent
+Hormones|h
+ HCG (trophoblaste)
+  Agit comme la LH
+  Maintient le corps jaune
+ Relais placenta: 11e semaine
+ Test de grossesse (urine)
+Gastrulation|l
+ Ectoderme: peau, nerfs
+ Mésoderme: cœur, rate
+ Endoderme: digestif, poumons
+Sexe|t
+ Gène SRY → protéine TDF
+ Y: testicule
+  Testostérone + AMH
+  Canaux de Wolff: voies mâles
+ Sans Y: ovaire
+  Canaux de Müller: voies femelles`],
+['Parturition et allaitement','m',`Déclenchement|n
+ Fœtus: cortisol (ACTH)
+ Progestérone ↓, œstrogènes ↑
+ Prostaglandines ↑
+Amplification|h
+ Ocytocine (post-hypophyse)
+ Prostaglandines
+ Progestérone inhibe, ocytocine stimule
+3 phases|c
+ Dilatation
+  Primipare 12 h, multipare 6–7 h
+ Expulsion
+  Environ 1 h
+ Délivrance
+  20–30 min: placenta
+Nouveau-né|b
+ Premier cri, poumons
+ Fermeture entre oreillettes
+ Protéger du froid
+Glande mammaire|m
+ Acinus: unité de production
+ Canaux galactophores
+ Cellules myoépithéliales
+ Puberté: œstrogènes
+ Gestation: acini (prolactine)
+Montée de lait|d
+ Chute œstrogènes + progestérone
+ Prolactine ↑
+ Colostrum: premier lait
+Entretien|l
+ Succion du mamelon
+ Message nerveux → hypothalamus
+ PIF ↓, PRF ↑
+ Prolactine → lait
+Éjection|o
+ Ocytocine → cellules contractiles
+ Réflexe neuro-hormonal
+ Angoisse: bloque`],
+['Maîtrise de la procréation','p',`Contraception naturelle|c
+ Retrait (échec 17 %)
+ Continence périodique
+  Température &lt; 37 / &gt; 37 °C
+Méthodes mécaniques|d
+ Préservatif masculin
+  Protège aussi du SIDA
+ Diaphragme + spermicide
+  Échec 2–4 %
+Méthodes hormonales|p
+ Pilule combinée
+  21 jours, œstrogène + progestatif
+  RC–: pas de pic LH, pas d’ovulation
+  Endomètre impropre, glaire imperméable
+ Micropilule
+  Progestatif seul, 28 comprimés
+ Implant (3 ans)
+Contragestion|h
+ RU486 (mifépristone)
+  Anti-progestérone, avant 49 jours
+  + prostaglandines
+ Stérilet (fil de cuivre)
+  Inflammation: pas de nidation
+PMA|s
+ FIVETE
+  Stimulation (FSH, puis LH/HCG)
+  Ponction des ovocytes
+  Fécondation in vitro
+  Culture 2–4 cellules
+  Transfert dans l’utérus
+ Insémination artificielle
+ ICSI: spermatozoïde injecté
+Stérilité|b
+ Masculine
+  Azoospermie, oligospermie, tératospermie
+  Cryptorchidie
+ Féminine
+  Trompes obturées
+  Glaire anormale
+  Immunitaire
+ Commun: hormonale, chromosomique
+Diagnostic prénatal|l
+ Échographie: ultrasons, indolore
+ Amniocentèse
+  17e semaine, caryotype
+  Risque 0,5–1 %
+ Biopsie des villosités (9e–11e sem.)`]
+].map(([t,ic,s])=>({t,ic,b:P(s)}));
+let M,all=[],V={s:1,x:0,y:0},T=null,narrow=false,bd,cur;
+const K=n=>n.z||n.h?[]:n.k,lv=n=>K(n).reduce((a,k)=>a+lv(k),0)||1,mn=m=>{while(m.d>1)m=m.p;return m},shuf=a=>a.sort(()=>Math.random()-.5);
+const wd=n=>n.h?70:n.d<2?n.t.length*9.6+66:n.t.length*7.6+26;
+const collapse=()=>all.forEach(n=>{n.z=narrow&&n.d>=2&&n.k.length>0;n.h=false});
+function home(){T=null;$('#app').innerHTML=`<header><b>🧠 Cartes mentales – La reproduction des mammifères</b></header><div id="home"><p>Choisis une carte. Touche une branche pour l’ouvrir ou la fermer, glisse pour te déplacer, pince pour zoomer. Puis appuie sur <b>🎯 Réviser</b> pour retrouver les mots cachés.</p><div class="grid">${MAPS.map((m,i)=>`<div class="card" style="background:${C[i%9]}" onclick="go(${i})"><svg viewBox="0 0 40 40"><use href="#i-${m.ic}"/></svg><h3>${i+1}. ${m.t}</h3></div>`).join('')}</div></div>`}
+function go(i){M=MAPS[i];all=[];narrow=innerWidth<700;M.b.forEach((b,j)=>{const w=(n,p)=>{n.p=p;n.c=C[j%9];n.id=all.length;all.push(n);n.k.forEach(k=>w(k,n))};w(b,null)});collapse();T=null;
+$('#app').innerHTML=`<div id="map"><header><button onclick="home()">⌂</button><b id="ttl">${M.t}</b><span class="sp"></span><button onclick="zoom(1.25)">＋</button><button onclick="zoom(.8)">－</button><button onclick="fit()">⤢</button><button id="ob" onclick="tog()">Tout ouvrir</button><button onclick="train(.3)">🎯 Réviser</button></header><div id="tb" hidden><b id="sc"></b> Cacher : <button onclick="train(.3)">un peu</button><button onclick="train(.6)">beaucoup</button><button onclick="train(1)">tout (reconstruire)</button><button onclick="redo()">🔁 ratés</button><button onclick="exitT()">👁 Voir la carte</button></div><svg id="s"><g id="v"></g></svg><div id="sheet" hidden></div></div>`;bind();draw();fit()}
+function draw(){let e='',nd='';bd=[-110,110,-64,64];const sl={1:0,'-1':0},tot=M.b.reduce((a,b)=>a+lv(b),0);let acc=0;
+M.b.forEach(b=>{b.s=acc+lv(b)/2<tot/2?1:-1;acc+=lv(b)});
+const pl=(n,s,x)=>{n.s=s;n.w=wd(n);n.x=x;const k=K(n);if(!k.length)n.y=sl[s]++*H;else{k.forEach(c=>pl(c,s,x+s*(n.w+38)));n.y=(k[0].y+k[k.length-1].y)/2}};
+M.b.forEach(b=>pl(b,b.s,b.s*120));
+const sh=(n)=>{const o=(sl[n.s]-1)*H/2;n.y-=o;K(n).forEach(sh)};M.b.forEach(sh);
+const r=(n,p)=>{const s=n.s,x0=s>0?n.x:n.x-n.w,y=n.y,sx=p?p.x+s*p.w:s*100,sy=p?p.y:0,mx=(sx+n.x)/2;
+e+=`<path d="M${sx} ${sy}C${mx} ${sy} ${mx} ${y} ${n.x} ${y}" stroke="${n.c}" stroke-width="${[0,9,4,2.5,2][Math.min(n.d,4)]}" fill="none" stroke-linecap="round"/>`;
+bd[0]=Math.min(bd[0],x0);bd[1]=Math.max(bd[1],x0+n.w);bd[2]=Math.min(bd[2],y-20);bd[3]=Math.max(bd[3],y+20);
+let g=`<g data-i="${n.id}" style="cursor:pointer">`;
+if(n.d<2)g+=`<rect x="${x0}" y="${y-20}" width="${n.w}" height="40" rx="20" fill="${n.c}"/><circle cx="${x0+22}" cy="${y}" r="17" fill="#fff"/><use href="#i-${n.i}" x="${x0+7}" y="${y-15}" width="30" height="30"/><text x="${x0+46}" y="${y+6}" font-size="17" font-weight="700" fill="#fff">${n.t}</text>`;
+else g+=`<rect x="${x0}" y="${y-13}" width="${n.w}" height="26" rx="13" fill="${n.h?'#fff':n.c}" fill-opacity="${n.h?1:.15}" stroke="${n.c}" stroke-width="1.6" ${n.h?'stroke-dasharray="4 3"':''}/><text x="${x0+n.w/2}" y="${y+5}" text-anchor="middle" font-size="14" fill="#222">${n.h?'❓ ?':n.t}</text>`;
+if(n.z&&n.k.length&&!n.h){const ox=s>0?x0+n.w:x0;g+=`<circle cx="${ox}" cy="${y}" r="10" fill="${n.c}"/><text x="${ox}" y="${y+5}" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">+</text>`}
+nd+=g+'</g>';K(n).forEach(c=>r(c,n))};
+M.b.forEach(b=>r(b,null));
+const w=M.t.split(' '),h=Math.ceil(w.length/2),a=w.slice(0,h).join(' '),b=w.slice(h).join(' ');
+const root=`<ellipse rx="110" ry="64" fill="#ffd166" stroke="#e76f51" stroke-width="5"/><use href="#i-${M.ic}" x="-26" y="-58" width="52" height="52"/><text text-anchor="middle" y="${b?20:28}" font-size="15" font-weight="700">${a}</text><text text-anchor="middle" y="38" font-size="15" font-weight="700">${b}</text>`;
+$('#v').innerHTML=e+root+nd}
+const ap=()=>$('#v').setAttribute('transform',`translate(${V.x} ${V.y}) scale(${V.s})`);
+function fit(){const s=$('#s'),W=s.clientWidth,Hh=s.clientHeight;let k=Math.min(W/(bd[1]-bd[0]+60),Hh/(bd[3]-bd[2]+60),1.3);if(narrow)k=Math.max(k,.7);V.s=k;V.x=W/2-k*(bd[0]+bd[1])/2;V.y=Hh/2-k*(bd[2]+bd[3])/2;ap()}
+function zoomAt(f,c){const r=$('#s').getBoundingClientRect(),px=c[0]-r.left,py=c[1]-r.top,ns=Math.min(3,Math.max(.2,V.s*f));V.x=px-(px-V.x)*ns/V.s;V.y=py-(py-V.y)*ns/V.s;V.s=ns;ap()}
+function zoom(f){const r=$('#s').getBoundingClientRect();zoomAt(f,[r.left+r.width/2,r.top+r.height/2])}
+function tog(){const o=$('#ob').textContent=='Tout ouvrir';all.forEach(n=>n.z=!o&&n.d>=2&&n.k.length>0);$('#ob').textContent=o?'Replier':'Tout ouvrir';draw();fit()}
+function tap(id){const n=all[id];if(!n)return;if(T){if(n.h)ask(n);return}
+if(n.k.length){n.z=!n.z;draw();if(narrow){const s=$('#s');V.x=s.clientWidth/2-V.s*(n.x+n.s*n.w/2);V.y=s.clientHeight/2-V.s*n.y;ap()}}}
+function bind(){const s=$('#s'),Pm=new Map();let d0=0,mv=0;const dist=()=>{const a=[...Pm.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1};
+s.onpointerdown=e=>{s.setPointerCapture(e.pointerId);Pm.set(e.pointerId,[e.clientX,e.clientY]);if(Pm.size==1)mv=0;if(Pm.size==2)d0=dist()};
+s.onpointermove=e=>{const o=Pm.get(e.pointerId);if(!o)return;if(Pm.size==1){V.x+=e.clientX-o[0];V.y+=e.clientY-o[1];mv+=Math.abs(e.clientX-o[0])+Math.abs(e.clientY-o[1]);Pm.set(e.pointerId,[e.clientX,e.clientY]);ap()}else{Pm.set(e.pointerId,[e.clientX,e.clientY]);const d=dist(),a=[...Pm.values()];zoomAt(d/d0,[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2]);d0=d;mv=99}};
+s.onpointerup=e=>{Pm.delete(e.pointerId);if(mv<6&&Pm.size==0){const t=document.elementFromPoint(e.clientX,e.clientY),g=t&&t.closest('[data-i]');if(g)tap(+g.dataset.i)}};
+s.onpointercancel=e=>Pm.delete(e.pointerId);
+s.onwheel=e=>{e.preventDefault();zoomAt(e.deltaY<0?1.12:.89,[e.clientX,e.clientY])}}
+/* ---- entraînement ---- */
+const sheet=h=>{const s=$('#sheet');s.hidden=!h;s.innerHTML=h||''};
+function ui(){$('#tb').hidden=!T;if(T)$('#sc').textContent=`Trouvés ${T.ok}/${T.tot}`}
+function train(f){all.forEach(n=>{n.z=false;n.h=false});const c=shuf(all.filter(n=>n.d>=2));c.slice(0,Math.max(1,Math.round(c.length*f))).forEach(n=>n.h=true);T={tot:all.filter(n=>n.h).length,ok:0,miss:new Set()};sheet('');ui();draw();fit()}
+function redo(){if(!T||!T.miss.size)return sheet('<b>Aucun mot raté pour l’instant 👍</b>');const ids=[...T.miss];all.forEach(n=>n.h=false);ids.forEach(i=>all[i].h=true);T={tot:ids.length,ok:0,miss:new Set()};sheet('');ui();draw()}
+function exitT(){T=null;collapse();sheet('');ui();draw();fit()}
+function ask(n){const pool=shuf([...new Set(all.filter(x=>x.d>=2&&x.t!==n.t).map(x=>x.t))]).slice(0,3);cur=shuf([n.t,...pool]);const tr=[];let q=n.p;while(q){tr.unshift(q.t);q=q.p}
+sheet(`<b>Quel mot-clé se cache ici ?</b><p>Chemin : ${[M.t,...tr].join(' › ')}</p>${cur.map((t,i)=>`<button onclick="pick(${n.id},${i},this)">${t}</button>`).join('')}<p id="fb"></p>`)}
+function pick(id,i,b){const n=all[id],t=cur[i],fb=$('#fb');
+if(t===n.t){n.h=false;T.ok++;draw();ui();fb.innerHTML=`✅ Bravo ! C’est bien « ${n.t} ». ${T.ok>=T.tot?'🎉 Carte reconstruite ! '+(T.miss.size?T.miss.size+' mot(s) à revoir : touche « 🔁 ratés ».':'Sans faute !'):''}<br><button onclick="sheet('')">Continuer</button>`;document.querySelectorAll('#sheet>button:not(:last-child)').forEach(x=>x.disabled=true)}
+else{T.miss.add(id);b.disabled=true;const w=all.find(x=>x.t===t);fb.innerHTML=`❌ Pas ici. « ${t} » se trouve dans la branche « ${mn(w).t} » (sous « ${w.p.t} »). Ici, cherche dans la branche « ${mn(n).t} ». Essaie encore !`}}
+home();
+</script></body></html>
